@@ -2,5 +2,4 @@ app
 mysql
 mysql_tests
 redis
-webserver
 .idea
