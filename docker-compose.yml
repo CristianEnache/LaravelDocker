@@ -1,0 +1,73 @@
+version: "3.8"
+services:
+  webserver:
+    container_name: ${APP_DOMAIN}
+    build: ./webserver/php${PHP_VERSION}
+    volumes:
+      - './app/:/var/www/html'
+      - './webserver/ssl/:/etc/nginx/ssl'
+    depends_on:
+      - db
+      - db_tests
+    networks:
+      - internal
+    env_file:
+      - ./app/.env
+
+  selenium:
+    image: 'selenium/standalone-chrome:4.0.0-beta-1-prerelease-20210106'
+    ports:
+      - 5901:5900
+      - 4445:4444
+    volumes:
+      - '/dev/shm:/dev/shm'
+    networks:
+      - internal
+    depends_on:
+      - webserver
+    environment:
+      SCREEN_HEIGHT: '1080'
+      SCREEN_WIDTH: '1920'
+
+  # Use for development
+  db:
+    image: mysql:5.7
+    ports:
+      - '3307:3306'
+    environment:
+      MYSQL_DATABASE: 'myapp'
+      MYSQL_USER: 'myapp'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_ROOT_PASSWORD: 'secret'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    networks:
+      - internal
+    volumes:
+      - './mysql:/var/lib/mysql'
+
+  # Use for development
+  db_tests:
+    image: mysql:5.7
+    ports:
+      - '3308:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'secret'
+      MYSQL_DATABASE: 'myapp'
+      MYSQL_USER: 'myapp'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    networks:
+      - internal
+    volumes:
+      - './mysql_tests:/var/lib/mysql'
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '6380:6379'
+    volumes:
+      - './redis/:/data'
+    networks:
+      - internal
+networks:
+  internal:
+    driver: bridge
