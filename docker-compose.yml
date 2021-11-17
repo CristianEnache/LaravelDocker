@@ -6,6 +6,7 @@ services:
     volumes:
       - './app/:/var/www/html'
       - './webserver/ssl/:/etc/nginx/ssl'
+      - './webserver/cron/:/var/spool/cron/crontabs'
     depends_on:
       - db
       - db_tests
