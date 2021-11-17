@@ -61,6 +61,8 @@ RUN sed -i 's/group = www-data/group = 1000/g' /etc/php/7.4/fpm/pool.d/www.conf
 RUN usermod -u 1000 www-data
 RUN chown -R 1000:1000 /var/www
 
+RUN /etc/init.d/cron start
+
 # Slack permissions for storage folder
 #RUN chmod -R 775 /var/www/html/storage/
 
