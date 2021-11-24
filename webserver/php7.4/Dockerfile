@@ -29,7 +29,7 @@ RUN apt-get update \
        nano \
     && pecl install xdebug-3.0.0 \
     && php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
-    && curl -sL https://deb.nodesource.com/setup_15.x | bash - \
+    && curl -sL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs \
     && apt-get install -y wget \
     && apt-get install cron \
