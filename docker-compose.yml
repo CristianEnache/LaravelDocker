@@ -33,6 +33,7 @@ services:
   # Use for development
   db:
     image: mysql:5.7
+    command: --max_allowed_packet=32505856      # Set max_allowed_packet to 256M (or any other value)
     ports:
       - '3307:3306'
     environment:
