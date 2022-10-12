@@ -36,7 +36,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 RUN DEBIAN_FRONTEND=noninteractive apt -y update \
 && apt install -y --no-install-recommends php8.1 \
 && apt-get install -y php8.1-cli php8.1-common php8.1-mysql php8.1-zip php8.1-gd php8.1-mbstring php8.1-curl php8.1-xml php8.1-bcmath \
-&& apt-get install -y php8.1-curl php8.1-zip php8.1-simplexml php8.1-fpm
+&& apt-get install -y php8.1-curl php8.1-zip php8.1-simplexml php8.1-fpm php8.1-intl
 
 RUN apt-get install -y php-xdebug
 
