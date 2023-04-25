@@ -57,6 +57,9 @@ COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 COPY ./php.ini /etc/php/8.1/fpm/conf.d/custom-php.ini
 
+#Add test alias
+RUN echo "alias test='APP_ENV=testing php artisan test'" >> ~/.bashrc
+
 # RUN php8.1-fpm as www-data / 1000
 RUN sed -i 's/user = www-data/user = 1000/g' /etc/php/8.1/fpm/pool.d/www.conf
 RUN sed -i 's/group = www-data/group = 1000/g' /etc/php/8.1/fpm/pool.d/www.conf
