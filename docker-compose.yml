@@ -12,8 +12,8 @@ services:
       - db_tests
     networks:
       - internal
-    env_file:
-      - ./app/.env
+#    env_file:
+#      - ./app/.env
     ports:
       - '8000:80' # for site server
       - '5173:5173' #for vite dev server
