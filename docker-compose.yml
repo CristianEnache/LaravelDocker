@@ -9,7 +9,6 @@ services:
       - './webserver/cron/:/var/spool/cron/crontabs'
     depends_on:
       - db
-      - db_tests
     networks:
       - internal
 #    env_file:
