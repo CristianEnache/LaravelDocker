@@ -4,9 +4,10 @@ LABEL maintainer="Cristian Enache"
 
 WORKDIR /var/www/html
 
-RUN DEBIAN_FRONTEND=noninteractive TZ=UTC 
+RUN DEBIAN_FRONTEND=noninteractive TZ=UTC
 
 RUN apt-get update \
+   && apt-get install -y systemctl \
    && apt-get install -y iputils-ping \
    && apt-get install -y nginx \
    && apt-get install -y sudo \
@@ -32,10 +33,11 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 # And afterwards whatever you like, for example:
 #RUN DEBIAN_FRONTEND=noninteractive curl -fsSL https://gist.githubusercontent.com/Shelob9/f981e8fee4e80aec383442df7838de7e/raw/427f097ae2b4c66e7ad013407ae8fe858bb849e6/php81.sh | sh
 
-
-
-
 # PHP 8.2
+
+#PHP8.2-FPM needs this directory
+RUN DEBIAN_FRONTEND=noninteractive mkdir /run/php
+
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y software-properties-common && add-apt-repository ppa:ondrej/php
 
