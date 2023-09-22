@@ -21,3 +21,6 @@
 # For more information see the manual pages of crontab(5) and cron(8)
 # 
 # m h  dom mon dow   command
+
+# Laravel Cron
+* * * * * cd /var/www/html && php artisan schedule:run >> /dev/null 2>&1
