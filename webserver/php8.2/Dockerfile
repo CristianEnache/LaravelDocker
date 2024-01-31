@@ -42,7 +42,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y php8.2-curl php8.2-zip php
 # RUN apt-get install -y php-xdebug
 
 RUN DEBIAN_FRONTEND=noninteractive php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
-        
+
 RUN npm install -g laravel-echo-server
 
 # Turn off daemon mode, so we can control nginx via supervisor
@@ -53,20 +53,20 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN rm -rf /etc/nginx/sites-available/default
 COPY ./nginx/default.conf /etc/nginx/sites-available/default
 COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-#COPY ./php.ini /etc/php/8.2/fpm/conf.d/custom-php.ini
+COPY ./php.ini /etc/php/8.2/fpm/conf.d/custom-php.ini
 
 #Add test alias
 RUN echo "alias test='APP_ENV=testing php artisan test'" >> ~/.bashrc
 
 # RUN php8.2-fpm as www-data / 1000
-#RUN sed -i 's/user = www-data/user = 1000/g' /etc/php/8.2/fpm/pool.d/www.conf
-#RUN sed -i 's/group = www-data/group = 1000/g' /etc/php/8.2/fpm/pool.d/www.conf
+RUN sed -i 's/user = www-data/user = 1000/g' /etc/php/8.2/fpm/pool.d/www.conf
+RUN sed -i 's/group = www-data/group = 1000/g' /etc/php/8.2/fpm/pool.d/www.conf
 
 # Change ownership of /var/www
 RUN usermod -u 1000 www-data
 RUN chown -R 1000:1000 /var/www
 
 # Slack permissions for storage folder
-#RUN chmod -R 775 /var/www/html/storage/
+#RUN chmod -R 775 /var/www/html/storage
 
 CMD ["/usr/bin/supervisord", "-n"]
